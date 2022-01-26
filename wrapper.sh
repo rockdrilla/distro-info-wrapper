@@ -9,7 +9,7 @@ dir0=$(readlink -f "${dir0}")
 
 ## --- functions
 
-distro_info() { "${dir0}/tool.sh" "$@" ; }
+distro_info() { "${dir0}/simple-csv.sh" "$@" ; }
 distro_chan() { grep -Eo '^[^ ,]+' | tac | tr -s '[:space:]' ' ' ; }
 
 is_latest() { printf '%s\n' "$1" | grep -qE -e "^$2( |\$)" ; }
