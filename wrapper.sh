@@ -44,13 +44,11 @@ true_tag() {
 
 ## -- code itself
 
-channels=$(distro_info "$1" | distro_chan)
 case "$1" in
-debian) channels=${channels}' unstable' ;;
-## maybe handle it too?..
-# ubuntu) channels=${channels}' devel' ;;
+debian) echo 'sid unstable' ;;
 esac
 
+channels=$(distro_info "$1" | distro_chan)
 t=$(mktemp)
 for chan in ${channels} ; do
 	distro_info "$1" "${chan}" > "$t"
@@ -64,8 +62,8 @@ for chan in ${channels} ; do
 	if [ -n "${tag}" ] ; then
 		distro_info "$1" "${tag}" > "$t"
 		tag_q=$(true_tag "$t" "${chan}")
-		[ -n "${tag_q}" ] \
-			&& chan_list="${chan_list} ${tag}"
+		[ -z "${tag_q}" ] && continue
+		chan_list="${chan_list} ${tag}"
 	fi
 
 	is_latest "${channels}" "${chan}" \
