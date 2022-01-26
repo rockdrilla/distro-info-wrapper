@@ -21,15 +21,6 @@ distro_known() {
 distro_birth() {
 	case "$1" in
 	ubuntu) echo '2004-10-20' ;;
-
-	## TODO: dig some data about releases
-	# devuan) echo '2016-05-03' ;;
-
-	## TODO: dig some data about releases
-	# kali) echo '2013-03-13' ;;
-
-	## TODO: maybe dig around about Tanglu too?.. :)
-
 	## return Debian's in all other cases
 	*) echo '1993-08-16' ;;
 	esac
