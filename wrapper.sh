@@ -10,9 +10,9 @@ dir0=$(readlink -f "${dir0}")
 ## --- functions
 
 distro_info() { "${dir0}/simple-csv.sh" "$@" ; }
-distro_chan() { grep -Eo '^[^ ,]+' | tac | tr -s '[:space:]' ' ' ; }
+distro_chan() { grep -Eo '^[^ ,]+' | tr -s '[:space:]' ' ' | sed -E 's/ $//' ; }
 
-is_latest() { printf '%s\n' "$1" | grep -qE -e "^$2( |\$)" ; }
+is_latest() { printf '%s\n' "$1" | grep -qE "( |^)$2\$" ; }
 
 ## $1 - file with "distro_info distro channel"
 ## $2 - channel
@@ -44,10 +44,6 @@ true_tag() {
 
 ## -- code itself
 
-case "$1" in
-debian) echo 'sid unstable' ;;
-esac
-
 channels=$(distro_info "$1" | distro_chan)
 t=$(mktemp)
 for chan in ${channels} ; do
@@ -74,3 +70,7 @@ for chan in ${channels} ; do
 	echo ${chan_list}
 done
 rm -f "$t"
+
+case "$1" in
+debian) echo 'sid unstable' ;;
+esac
